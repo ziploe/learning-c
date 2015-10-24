@@ -1,16 +1,18 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+// compare mine with the book
 struct node{
 	char character;
-	struct node *prePtr;
+	//struct node *prePtr;
 	struct node *nextPtr;
 };
 typedef struct node Node;
 
 void insert(Node **headPPtr,char value);
 void delet(Node **headPPtr,char value);
-void print(Node headnode);
+int isEmpty(Node *headPPtr);		// add from the book
+void print(Node headnode);			//differ from the book
 void instruction(void);
 
 int main(void)
@@ -19,19 +21,19 @@ int main(void)
 	int choice;
 	char element;
 	instruction();
+	printf("? ");
 	scanf("%d",&choice);
-	getchar();
+	//getchar();
 	//choice=getchar();
 	while(choice!=3){
 		switch(choice){
 		case 1:
 			printf("enter the character to insert\n");
+			//scanf("%c",&element);			// mine
+			scanf("\n%c",&element);		   //the book
 			//getchar();
-			scanf("%c",&element);
-			getchar();
-			//element=getchar();
 			insert(&headPtr,element);
-			//print(*headPtr);
+			print(*headPtr);
 			break;
 		case 2:
 			if(headPtr==NULL){
@@ -39,31 +41,38 @@ int main(void)
 			}
 			else{
 				printf("enter the character to delete\n");
-				scanf("%c",&element);
-				getchar();
-				//element=getchar();
+				//scanf("%c",&element);				//mine
+				scanf("\n%c",&element);				//the book
 				delet(&headPtr,element);
+				print(*headPtr);
 			}
 			break;
 		default:
-			printf("unvalid value\n");			
+			printf("unvalid value\n");	
+			instruction();
 			break;
 		}//end switch
-		print(*headPtr);
-		instruction();
+		printf("? ");
 		scanf("%d",&choice);
-		getchar();
+		//scanf("%d",&choice);
+		//getchar();
 		//choice=getchar();
 	}//end while
+	printf("end of run.");
 	return 0;
 }//end main
 
 // functions
 void instruction(void){
-	printf("choice your choice from '1','2','3'\n'1'to insert\t'2'to delete\t'3'to end\n");
+	//printf("choice your choice from '1','2','3'\n'1'to insert\t'2'to delete\t'3'to end\n");			//mine
+	printf("Enter your choice:\n"
+		"	1 to insert an element into the list.\n"
+		"	2 to delete an element from the list.\n"														//the book
+		"	3 to end.\n");
 }
 
-void insert(Node** headPPtr,char value)
+//*********************my insert function*********************
+/*void insert(Node** headPPtr,char value)
 {
 	Node *newPtr,*currentPtr;
 	newPtr=(Node*)malloc(sizeof(Node));
@@ -107,25 +116,28 @@ void insert(Node** headPPtr,char value)
 	}
 	return;
 }//end insert function
+*/
+
+//************* insert function from the book*****************
 
 // delete function begin
 void delet(Node **headPPtr,char value)
 {
-	Node *currentPtr=*headPPtr,*temPtr;
-	if (currentPtr->nextPtr==NULL && currentPtr->character==value){
-		currentPtr=NULL;
+	Node **currentPPtr=headPPtr,*temPtr;
+	if ((*currentPPtr)->nextPtr==NULL && (*currentPPtr)->character==value){
+		(*currentPPtr)=NULL;
 	}
 	else{
-		while(currentPtr->character<value && currentPtr->nextPtr!=NULL){
-			currentPtr=currentPtr->nextPtr;
+		while((*currentPPtr)->character<value && (*currentPPtr)->nextPtr!=NULL){
+			(*currentPPtr)=(*currentPPtr)->nextPtr;
 		}
-		if(currentPtr->nextPtr==NULL){
+		if((*currentPPtr)->nextPtr==NULL){
 		printf("element not found");
 		}
-		else if(currentPtr->nextPtr->character==value)
+		else if((*currentPPtr)->nextPtr->character==value)
 		{
-			temPtr=currentPtr->nextPtr;
-			currentPtr->nextPtr=temPtr->nextPtr;
+			temPtr=(*currentPPtr)->nextPtr;
+			(*currentPPtr)->nextPtr=temPtr->nextPtr;
 			printf("element %c deleted successfully",value);
 			free(temPtr);
 
@@ -142,8 +154,9 @@ void print(Node headnode)
 {
 
 	Node *currentPtr=&headnode;
+	printf("the list contains:\n");
 	while(currentPtr!=NULL){
-		printf("%s\n%c\n","the list contains:",currentPtr->character);
+		printf("%c\t",currentPtr->character);
 		currentPtr=currentPtr->nextPtr;
 	}
 	return;
