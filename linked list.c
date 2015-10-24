@@ -8,9 +8,9 @@ struct node{
 };
 typedef struct node Node;
 
-void insert(Node *hnode,char value);
-void delet(Node *hnode,char value);
-void print(Node *hnode);
+void insert(Node **headPPtr,char value);
+void delet(Node **headPPtr,char value);
+void print(Node headnode);
 void instruction(void);
 
 int main(void)
@@ -26,30 +26,30 @@ int main(void)
 		switch(choice){
 		case 1:
 			printf("enter the character to insert\n");
-			getchar();
-			scanf("%c",&element);
 			//getchar();
+			scanf("%c",&element);
+			getchar();
 			//element=getchar();
-			insert(headPtr,element);
-			print(headPtr);
+			insert(&headPtr,element);
+			//print(*headPtr);
 			break;
 		case 2:
 			if(headPtr==NULL){
 				printf("error! no element inside\n");
 			}
 			else{
-				printf("enter the character to delete");
+				printf("enter the character to delete\n");
 				scanf("%c",&element);
 				getchar();
 				//element=getchar();
-				delet(headPtr,element);
+				delet(&headPtr,element);
 			}
 			break;
 		default:
 			printf("unvalid value\n");			
 			break;
 		}//end switch
-		print(headPtr);
+		print(*headPtr);
 		instruction();
 		scanf("%d",&choice);
 		getchar();
@@ -63,7 +63,7 @@ void instruction(void){
 	printf("choice your choice from '1','2','3'\n'1'to insert\t'2'to delete\t'3'to end\n");
 }
 
-void insert(Node *hnode,char value)
+void insert(Node** headPPtr,char value)
 {
 	Node *newPtr,*currentPtr;
 	newPtr=(Node*)malloc(sizeof(Node));
@@ -75,16 +75,14 @@ void insert(Node *hnode,char value)
 		newPtr->nextPtr=NULL;
 		//currentPtr=hnode;
 		//if(hnode==NULL){			//if element is the first one be insert		！！！！这里hnode 没有被初始化！！！
-		if(hnode==NULL){
-			hnode=newPtr;
-			puts("in insert function1");
+		if(*headPPtr==NULL){
+			*headPPtr=newPtr;
 		}
-		else{currentPtr=hnode;	//changed
+		else{currentPtr=*headPPtr;	//changed
 			if(newPtr->character<currentPtr->character ){
 				newPtr->nextPtr=currentPtr;
-				currentPtr->prePtr=newPtr;
-				hnode=newPtr;
-				puts("in insert function11");
+				//currentPtr->prePtr=newPtr;
+				*headPPtr=newPtr;
 			}
 			else{
 				while(newPtr->character>currentPtr->character && currentPtr->nextPtr!=NULL){
@@ -92,18 +90,18 @@ void insert(Node *hnode,char value)
 				}
 				if(currentPtr->nextPtr==NULL){
 					currentPtr->nextPtr=newPtr;
-					newPtr->prePtr=currentPtr;
+					//newPtr->prePtr=currentPtr;
 				}
 				else
 				{
-					currentPtr->nextPtr=newPtr;
-					newPtr->prePtr=currentPtr;
 					newPtr->nextPtr=currentPtr->nextPtr;
-					currentPtr->nextPtr->prePtr=newPtr;
-				}
-			}
-		}
-	}
+					currentPtr->nextPtr=newPtr;
+					//newPtr->prePtr=currentPtr;				
+					//currentPtr->nextPtr->prePtr=newPtr;
+				}//end else 
+			}//end else in else if
+		}//end else in if if
+	}//end if
 	else{
 		printf("no memory avaliable");
 	}
@@ -111,9 +109,9 @@ void insert(Node *hnode,char value)
 }//end insert function
 
 // delete function begin
-void delet(Node *hnode,char value)
+void delet(Node **headPPtr,char value)
 {
-	Node *currentPtr=hnode,*temPtr;
+	Node *currentPtr=*headPPtr,*temPtr;
 	if (currentPtr->nextPtr==NULL && currentPtr->character==value){
 		currentPtr=NULL;
 	}
@@ -140,11 +138,12 @@ void delet(Node *hnode,char value)
 }//end delete function
 
 //print function begin
-void print(Node *hnode)
+void print(Node headnode)
 {
-	Node *currentPtr=hnode;
+
+	Node *currentPtr=&headnode;
 	while(currentPtr!=NULL){
-		printf("%s\n%c\t","the list contains:",currentPtr->character);
+		printf("%s\n%c\n","the list contains:",currentPtr->character);
 		currentPtr=currentPtr->nextPtr;
 	}
 	return;
