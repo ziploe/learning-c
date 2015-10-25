@@ -118,26 +118,56 @@ void instruction(void){
 }//end insert function
 */
 
-//************* insert function from the book*****************
-
-// delete function begin
-void delet(Node **headPPtr,char value)
+//************* insert function from the book**********************
+void insert(Node** headPPtr,char value)
 {
-	Node **currentPPtr=headPPtr,*temPtr;
-	if ((*currentPPtr)->nextPtr==NULL && (*currentPPtr)->character==value){
-		(*currentPPtr)=NULL;
-	}
-	else{
-		while((*currentPPtr)->character<value && (*currentPPtr)->nextPtr!=NULL){
-			(*currentPPtr)=(*currentPPtr)->nextPtr;
+	Node *newPtr,*prePtr,*currentPtr;
+	if((newPtr=(Node*)malloc(sizeof(Node)))!=NULL){
+		newPtr->character=value;
+		newPtr->nextPtr=NULL;
+		prePtr=NULL;
+		currentPtr=*headPPtr;
+		//---------loop to find the correct location in the list---------
+		while(currentPtr!=NULL && value > currentPtr->character){
+			prePtr=currentPtr;
+			currentPtr=currentPtr->nextPtr;
 		}
-		if((*currentPPtr)->nextPtr==NULL){
+		// ------insert new nood at the begining of list-------
+		if(prePtr==NULL){
+			newPtr->nextPtr=*headPPtr;
+			*headPPtr=newPtr;
+		}
+		//-------insert now nood between prePtr and currentPtr------
+		else{
+			prePtr->nextPtr=newPtr;
+			newPtr->nextPtr=currentPtr;
+		}
+	}//end first if
+	else{
+		printf("%c not insert, no memory available.\n");
+	}
+}//end insert function
+			
+
+// ***************** my delete function ***************************
+/*void delet(Node **headPPtr,char value)
+{
+	Node *currentPtr=*headPPtr,*temPtr;								//this function doesnot work , because *headPPtr stay unchanged
+	if (currentPtr->nextPtr==NULL && currentPtr->character==value){
+		*headPPtr=NULL;										
+	}															
+	else{
+		*headPPtr=currentPtr;
+		while(currentPtr->character<value && currentPtr->nextPtr!=NULL){	//....why not use "!= " ????   oh ,these values were in order
+			currentPtr=currentPtr->nextPtr;
+		}
+		if(currentPtr->nextPtr==NULL){										//°¡°¡°¡°¡ ¼òÖ±Âß¼­»ìÂÒÔã¸âÖÁ¼«¡£¡£¡£¡£
 		printf("element not found");
 		}
-		else if((*currentPPtr)->nextPtr->character==value)
+		else if(currentPtr->nextPtr->character==value)
 		{
-			temPtr=(*currentPPtr)->nextPtr;
-			(*currentPPtr)->nextPtr=temPtr->nextPtr;
+			temPtr=currentPtr->nextPtr;
+			currentPtr->nextPtr=temPtr->nextPtr;
 			printf("element %c deleted successfully",value);
 			free(temPtr);
 
@@ -148,6 +178,39 @@ void delet(Node **headPPtr,char value)
 	}
 	return;
 }//end delete function
+*/
+// *********** another delete funcution****************
+void delet(Node **headPPtr,char value){
+	Node *prePtr=NULL;
+	Node *currentPtr=*headPPtr,*temPtr;
+	if((*headPPtr)->character==value){
+		temPtr=*headPPtr;
+		(*headPPtr)=(*headPPtr)->nextPtr;
+		free(temPtr);
+		puts("deleted");
+	}
+	else{
+		while(currentPtr!=NULL && currentPtr->character!=value){
+			prePtr=currentPtr;
+			currentPtr=currentPtr->nextPtr;
+		}
+		if(currentPtr!=NULL){
+			temPtr=currentPtr;
+			prePtr->nextPtr=currentPtr->nextPtr;
+			free(temPtr);
+			puts("deleted");
+		}
+		else{
+			puts("not found");
+		}
+	}
+return;
+}
+
+
+
+
+
 
 //print function begin
 void print(Node headnode)
