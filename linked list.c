@@ -44,7 +44,12 @@ int main(void)
 				//scanf("%c",&element);				//mine
 				scanf("\n%c",&element);				//the book
 				delet(&headPtr,element);
-				print(*headPtr);
+				if(headPtr!=NULL){
+					print(*headPtr);
+				}
+				else{
+					puts("list is empty");
+				}
 			}
 			break;
 		default:
@@ -150,37 +155,37 @@ void insert(Node** headPPtr,char value)
 			
 
 // ***************** my delete function ***************************
-/*void delet(Node **headPPtr,char value)
+void delet(Node **headPPtr,char value)
 {
-	Node *currentPtr=*headPPtr,*temPtr;								//this function doesnot work , because *headPPtr stay unchanged
-	if (currentPtr->nextPtr==NULL && currentPtr->character==value){
-		*headPPtr=NULL;										
+	Node *currentPtr=*headPPtr,*temPtr,*prePtr=NULL;								
+	if ((*headPPtr)->character==value){
+		temPtr=currentPtr;
+		*headPPtr=(*headPPtr)->nextPtr;	
+		puts("delete succeed");
+		free(temPtr);
 	}															
 	else{
-		*headPPtr=currentPtr;
-		while(currentPtr->character<value && currentPtr->nextPtr!=NULL){	//....why not use "!= " ????   oh ,these values were in order
+		while(currentPtr!=NULL && currentPtr->character!=value){				// finally this works! 
+			prePtr=currentPtr;
 			currentPtr=currentPtr->nextPtr;
 		}
-		if(currentPtr->nextPtr==NULL){										//°¡°¡°¡°¡ ¼òÖ±Âß¼­»ìÂÒÔã¸âÖÁ¼«¡£¡£¡£¡£
-		printf("element not found");
+		if(currentPtr==NULL){
+			printf("element not found\n");
 		}
-		else if(currentPtr->nextPtr->character==value)
-		{
-			temPtr=currentPtr->nextPtr;
-			currentPtr->nextPtr=temPtr->nextPtr;
-			printf("element %c deleted successfully",value);
-			free(temPtr);
 
-		}
 		else{
-		printf("element not found");
+			//in need of the Ptr before currentPtr
+			temPtr=currentPtr;
+			prePtr->nextPtr=currentPtr->nextPtr;
+			puts("delete succeed");
+			free(temPtr);
 		}
 	}
 	return;
 }//end delete function
-*/
+
 // *********** another delete funcution****************
-void delet(Node **headPPtr,char value){
+/*void delet(Node **headPPtr,char value){
 	Node *prePtr=NULL;
 	Node *currentPtr=*headPPtr,*temPtr;
 	if((*headPPtr)->character==value){
@@ -205,14 +210,9 @@ void delet(Node **headPPtr,char value){
 		}
 	}
 return;
-}
+}*/
 
-
-
-
-
-
-//print function begin
+//***************print function begin*******************
 void print(Node headnode)
 {
 
