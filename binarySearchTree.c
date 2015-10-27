@@ -7,19 +7,19 @@ struct node {
 	int number;
 	struct node *leftPtr;
 	struct node *rightPtr;
-}
+};
 typedef struct node Node;
 typedef struct node* NodePtr;
 
 /**********functons************************/
 void insertInstruction(void);
-void insert(NodePtr *nodePPtr,int value);
+void insert(NodePtr nodePtr,int value);
 void printInstruction(void);
 void inorderPrint(NodePtr nodePtr);
 void preorderPrint(NodePtr nodePtr);
 void postorderPrint(NodePtr nodePtr);
 /**************main function begin*****************/
-int mian (void)
+int main (void)
 {
 	int element,insertChoice,printChoice;
 	NodePtr rootNodePtr=NULL;
@@ -27,13 +27,22 @@ int mian (void)
 	scanf("%d",&insertChoice);
 	while(insertChoice!=-1){
 		puts("enter the number to insert\n");
-		scanf("%d",element);
-		insert(&rootNodePtr,element);
+		scanf("%d",&element);
+		if(rootNodePtr==NULL){
+			rootNodePtr=(NodePtr)malloc(sizeof(Node));
+			rootNodePtr->number=element;
+			rootNodePtr->leftPtr=NULL;
+			rootNodePtr->rightPtr=NULL;
+		}
+		else{
+			insert(rootNodePtr,element);
+			insertInstruction();
+		}
 		insertInstruction();
 		scanf("%d",&insertChoice);
 	}// binary tree build done
 
-	void printInstruction(void);
+	printInstruction();
 	scanf("%d",&printChoice);
 	while(printChoice!=4){
 		switch(printChoice){
@@ -48,18 +57,21 @@ int mian (void)
 			break;
 		default:
 			puts("invalid choice\n");
-			void printInstruction(void);
+			printInstruction();
 			break;
 		}
+		printInstruction();
+		scanf("%d",&printChoice);
 	}
 	puts("function end\n");
 	return 0;
-}
+}		//end main function
 
 /**********insertInstruction**********************/
 void insertInstruction(void)
 {
-	printf("enter -1 to end insert, enter other number to start insert function");
+	printf("enter -1 to end insert,\n enter other number to start insert function");
+	return;
 }
 
 /*******************printInstruction****************/
@@ -69,27 +81,73 @@ void printInstruction(void)
 		"	1 mean inorderprint\n"
 		"	2 mean preorderprint\n"
 		"	3 mean postorderprint\n"
-		"	3 to end\n"
+		"	4 to end\n");
+	return ;
 }
 /**************insertfunction*********************/
-void insert(NodePtr *nodePPtr,int value)
+void insert(NodePtr nodePtr,int value)
 {
 	NodePtr newPtr;
 	NodePtr currentPtr;
 	//newPtr=(NodePtr)malloc(sizeof(Node));
-	currentPtr=(*nodePPtr);
-	if((*nodePPtr)==NULL){
+	currentPtr=nodePtr;
+	if( currentPtr->number==value){
+		puts("not inserted, because of repetition");		
+	}
+	else if(value<currentPtr->number){
+		if(currentPtr->leftPtr==NULL){
+			newPtr=(NodePtr)malloc(sizeof(Node));			
+			if(newPtr!=NULL){
+				newPtr->number=value;						// creat a node and insert the value if the node is NULL
+				newPtr->leftPtr=NULL;						
+				newPtr->rightPtr=NULL;
+				currentPtr->leftPtr=newPtr;
+			}
+			else{
+				puts("insert failed, momory available");
+			}
+		}//end if leftPtr==NULL
+		else{
+			currentPtr=currentPtr->leftPtr;
+			insert(currentPtr,value);
+		}
+	}
+	else{			//value>currentPtr->number
+		if(currentPtr->rightPtr==NULL){
+			newPtr=(NodePtr)malloc(sizeof(Node));			
+			if(newPtr!=NULL){
+				newPtr->number=value;						// creat a node and insert the value if the node is NULL
+				newPtr->leftPtr=NULL;						
+				newPtr->rightPtr=NULL;
+				currentPtr->rightPtr=newPtr;
+			}
+			else{
+				puts("insert failed, momory available");
+			}
+		}//end if leftPtr==NULL
+		else{
+			currentPtr=currentPtr->rightPtr;
+			insert(currentPtr,value);
+		}
+	}
+	return;
+}
+
+/*
+
+	if(currentPtr==NULL){
 		newPtr=(NodePtr)malloc(sizeof(Node));			
 		if(newPtr!=NULL){
 			newPtr->number=value;						// creat a node and insert the value if the node is NULL
 			newPtr->leftPtr=NULL;						
 			newPtr->rightPtr=NULL;
 			currentPtr=newPtr;
+			puts("first node used");
 		}
 		else{
 			puts("insert failed, momory available");
 		}
-		}
+	}
 	else if( currentPtr->number==value){
 		puts("not inserted, because of repetition");		
 	}
@@ -99,19 +157,32 @@ void insert(NodePtr *nodePPtr,int value)
 	else{
 		insert(&(currentPtr->rightPtr),value);
 	}
+	return;
 }//end function
+
 
 /****************inorderPrint function********************/
 void inorderPrint(NodePtr nodePtr)
 {
 	NodePtr currentPtr=nodePtr;
-	if(currentPtr->leftPtr==NULL){					// if the node is the leaf node,print the value
-		printf("%d",currentPtr->number);			
+	if(currentPtr->leftPtr==NULL){					
+		printf("%d",currentPtr->number);
+		if(currentPtr->rightPtr!=NULL){
+			inorderPrint(currentPtr->rightPtr);
+		}
+
 	}
 	else{
-		currentPtr=currentPtr->leftPtr;
-		inorderPrint(currentPtr);			//if not ,½øÈëµü´ú
+		inorderPrint(currentPtr->leftPtr);			
+		printf("%d",currentPtr->number);
 	}
-	inorderPrint(currentPtr->rightPtr);
 	return;
+}
+void preorderPrint(NodePtr nodePtr){
+	puts("p");
+	return ;
+}
+void postorderPrint(NodePtr nodePtr){
+	puts("s");
+	return ;
 }
