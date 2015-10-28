@@ -18,8 +18,8 @@ void printInstruction(void);
 void inorderPrint(NodePtr nodePtr);
 void preorderPrint(NodePtr nodePtr);
 void postorderPrint(NodePtr nodePtr);
-/**************main function begin*****************/
-int main (void)
+/**************old main function begin*****************/
+/*int main (void)
 {
 	int element,insertChoice,printChoice;
 	NodePtr rootNodePtr=NULL;
@@ -58,6 +58,53 @@ int main (void)
 		default:
 			puts("invalid choice\n");
 			printInstruction();
+			break;
+		}
+		printInstruction();
+		scanf("%d",&printChoice);
+	}
+	puts("function end\n");
+	return 0;
+}		//end main function
+*/
+
+/**************new main function*****************/
+int main(void)
+{
+	int element,printChoice,judge;
+	NodePtr rootNodePtr=NULL;
+	puts("enter a number to insert or enter a non-number to stop insert function\n");
+	printf("?:");
+	while(scanf("%d",&element)){
+		if(rootNodePtr==NULL){
+			rootNodePtr=(NodePtr)malloc(sizeof(Node));
+			rootNodePtr->number=element;
+			rootNodePtr->leftPtr=NULL;
+			rootNodePtr->rightPtr=NULL;
+		}
+		else{
+			insert(rootNodePtr,element);	
+		}
+		printf("?:");
+	}
+	getchar();							//第77行 scanf("%d",&i);是告诉电脑，你从输入流输入一个东西，
+	printInstruction();					//如果他是整形（%d）判断，那么他将传递过来的地址
+	scanf("%d",&printChoice);			//（&i是对i取地址）接收，否则将被继续放在缓存中。
+										//92行输入非数字就会进入死循环！ 因为它一直被放在缓存中
+	while(printChoice!=4){
+		switch(printChoice){
+		case 1:												
+			inorderPrint(rootNodePtr);
+			break;
+		case 2:
+			preorderPrint(rootNodePtr);
+			break;
+		case 3:
+			postorderPrint(rootNodePtr);
+			break;
+		default:
+			puts("invalid choice\n");
+			//printInstruction();
 			break;
 		}
 		printInstruction();
@@ -229,10 +276,21 @@ void inorderPrint(NodePtr nodePtr){
 
 
 void preorderPrint(NodePtr nodePtr){
-	puts("p");
+	NodePtr currentPtr=nodePtr;
+	if(currentPtr!=NULL){
+		printf("%d\t",currentPtr->number);
+		preorderPrint(currentPtr->leftPtr);
+		preorderPrint(currentPtr->rightPtr);
+
+	}
 	return ;
 }
 void postorderPrint(NodePtr nodePtr){
-	puts("s");
+	NodePtr currentPtr=nodePtr;
+	if(currentPtr!=NULL){
+		postorderPrint(currentPtr->leftPtr);
+		postorderPrint(currentPtr->rightPtr);
+		printf("%d\t",currentPtr->number);
+	}
 	return ;
 }
