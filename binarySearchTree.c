@@ -88,10 +88,10 @@ int main(void)
 		}
 		printf("?:");
 	}
-	getchar();							//µÚ77ĞĞ scanf("%d",&i);ÊÇ¸æËßµçÄÔ£¬Äã´ÓÊäÈëÁ÷ÊäÈëÒ»¸ö¶«Î÷£¬
-	printInstruction();					//Èç¹ûËûÊÇÕûĞÎ£¨%d£©ÅĞ¶Ï£¬ÄÇÃ´Ëû½«´«µİ¹ıÀ´µÄµØÖ·
-	scanf("%d",&printChoice);			//£¨&iÊÇ¶ÔiÈ¡µØÖ·£©½ÓÊÕ£¬·ñÔò½«±»¼ÌĞø·ÅÔÚ»º´æÖĞ¡£
-										//92ĞĞÊäÈë·ÇÊı×Ö¾Í»á½øÈëËÀÑ­»·£¡ ÒòÎªËüÒ»Ö±±»·ÅÔÚ»º´æÖĞ
+	getchar();					//ç¬¬77è¡Œ scanf("%d",&i);æ˜¯å‘Šè¯‰ç”µè„‘ï¼Œä½ ä»è¾“å…¥æµè¾“å…¥ä¸€ä¸ªä¸œè¥¿ï¼Œ
+	printInstruction();				//å¦‚æœä»–æ˜¯æ•´å½¢ï¼ˆ%dï¼‰åˆ¤æ–­ï¼Œé‚£ä¹ˆä»–å°†ä¼ é€’è¿‡æ¥çš„åœ°å€
+	scanf("%d",&printChoice);			//ï¼ˆ&iæ˜¯å¯¹iå–åœ°å€ï¼‰æ¥æ”¶ï¼Œå¦åˆ™å°†è¢«ç»§ç»­æ”¾åœ¨ç¼“å­˜ä¸­ã€‚
+							//92è¡Œè¾“å…¥éæ•°å­—å°±ä¼šè¿›å…¥æ­»å¾ªç¯ï¼ å› ä¸ºå®ƒä¸€ç›´è¢«æ”¾åœ¨ç¼“å­˜ä¸­
 	while(printChoice!=4){
 		switch(printChoice){
 		case 1:												
@@ -119,7 +119,7 @@ int main(void)
 /**********insertInstruction**********************/
 void insertInstruction(void)
 {
-	printf("enter -1 to end insert,\n enter other number to start insert function£º");
+	printf("enter -1 to end insert,\n enter other number to start insert functionï¼š");
 	return;
 }
 
