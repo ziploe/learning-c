@@ -70,7 +70,7 @@ int main (void)
 /**********insertInstruction**********************/
 void insertInstruction(void)
 {
-	printf("enter -1 to end insert,\n enter other number to start insert function");
+	printf("enter -1 to end insert,\n enter other number to start insert function£º");
 	return;
 }
 
@@ -84,8 +84,8 @@ void printInstruction(void)
 		"	4 to end\n");
 	return ;
 }
-/**************insertfunction*********************/
-void insert(NodePtr nodePtr,int value)
+/**************old eorr insertfunction*********************/
+/*void insert(NodePtr nodePtr,int value)
 {
 	NodePtr newPtr;
 	NodePtr currentPtr;
@@ -131,7 +131,42 @@ void insert(NodePtr nodePtr,int value)
 		}
 	}
 	return;
+}*/
+
+/****************new insert function***********************/
+void insert(NodePtr nodePtr,int value)
+{
+	NodePtr newPtr,prePtr;
+	NodePtr currentPtr=nodePtr;
+	while(currentPtr!=NULL && currentPtr->number!=value){
+		prePtr=currentPtr;
+		if(value<currentPtr->number){	
+			currentPtr=currentPtr->leftPtr;
+		}
+		else{
+			currentPtr=currentPtr->rightPtr;
+		}
+	}//end while
+	if(currentPtr==NULL){
+		newPtr=(NodePtr)malloc(sizeof(Node));
+		if(newPtr!=NULL){
+			if(value<prePtr->number){
+				prePtr->leftPtr=newPtr;
+			}
+			else{
+				prePtr->rightPtr=newPtr;
+			}	
+		}
+		else{
+			puts("insert failed, momory available");
+		}
+	}
+	else{
+		puts("not inserted, because of repetition");
+	}
+	return ;
 }
+
 
 /*
 
