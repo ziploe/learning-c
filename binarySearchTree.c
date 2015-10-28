@@ -1,5 +1,6 @@
-// inorder, preorder, postorder
 /************binary search tree**********************/
+/*********insert the number and save in a binary tree*****/
+/********and choose your way to print****************/
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -12,7 +13,7 @@ typedef struct node Node;
 typedef struct node* NodePtr;
 
 /**********functons************************/
-void insertInstruction(void);
+//void insertInstruction(void);
 void insert(NodePtr nodePtr,int value);
 void printInstruction(void);
 void inorderPrint(NodePtr nodePtr);
@@ -71,7 +72,7 @@ void postorderPrint(NodePtr nodePtr);
 /**************new main function*****************/
 int main(void)
 {
-	int element,printChoice,judge;
+	int element,printChoice;
 	NodePtr rootNodePtr=NULL;
 	puts("enter a number to insert or enter a non-number to stop insert function\n");
 	printf("?:");
@@ -107,6 +108,7 @@ int main(void)
 			//printInstruction();
 			break;
 		}
+		fflush(stdin);					// to clean the date in the cache
 		printInstruction();
 		scanf("%d",&printChoice);
 	}
