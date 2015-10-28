@@ -77,7 +77,7 @@ void insertInstruction(void)
 /*******************printInstruction****************/
 void printInstruction(void)
 {
-	printf("choice your choice\n"
+	printf("\nchoice your choice\n"
 		"	1 mean inorderprint\n"
 		"	2 mean preorderprint\n"
 		"	3 mean postorderprint\n"
@@ -150,6 +150,9 @@ void insert(NodePtr nodePtr,int value)
 	if(currentPtr==NULL){
 		newPtr=(NodePtr)malloc(sizeof(Node));
 		if(newPtr!=NULL){
+			newPtr->number=value;
+			newPtr->leftPtr=NULL;
+			newPtr->rightPtr=NULL;
 			if(value<prePtr->number){
 				prePtr->leftPtr=newPtr;
 			}
@@ -196,12 +199,12 @@ void insert(NodePtr nodePtr,int value)
 }//end function
 
 
-/****************inorderPrint function********************/
-void inorderPrint(NodePtr nodePtr)
+/****************old inorderPrint function********************/
+/*void inorderPrint(NodePtr nodePtr)
 {
 	NodePtr currentPtr=nodePtr;
 	if(currentPtr->leftPtr==NULL){					
-		printf("%d",currentPtr->number);
+		printf("%d\t",currentPtr->number);
 		if(currentPtr->rightPtr!=NULL){
 			inorderPrint(currentPtr->rightPtr);
 		}
@@ -209,10 +212,22 @@ void inorderPrint(NodePtr nodePtr)
 	}
 	else{
 		inorderPrint(currentPtr->leftPtr);			
-		printf("%d",currentPtr->number);
+		printf("%d\t",currentPtr->number);
 	}
 	return;
+}*/
+
+/************new inorderPrint function******************/
+void inorderPrint(NodePtr nodePtr){
+	NodePtr currentPtr=nodePtr;
+	if(currentPtr!=NULL){
+		inorderPrint(currentPtr->leftPtr);
+		printf("%d\t",currentPtr->number);
+		inorderPrint(currentPtr->rightPtr);
+	}
 }
+
+
 void preorderPrint(NodePtr nodePtr){
 	puts("p");
 	return ;
