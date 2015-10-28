@@ -165,7 +165,7 @@ void printInstruction(void)
 		if(currentPtr->rightPtr==NULL){
 			newPtr=(NodePtr)malloc(sizeof(Node));			
 			if(newPtr!=NULL){
-				newPtr->number=value;						// creat a node and insert the value if the node is NULL
+				newPtr->number=value;		// creat a node and insert the value if the node is NULL
 				newPtr->leftPtr=NULL;						
 				newPtr->rightPtr=NULL;
 				currentPtr->rightPtr=newPtr;
@@ -276,7 +276,7 @@ void inorderPrint(NodePtr nodePtr){
 	}
 }
 
-
+/****************preorderPrint function***********************/
 void preorderPrint(NodePtr nodePtr){
 	NodePtr currentPtr=nodePtr;
 	if(currentPtr!=NULL){
@@ -287,6 +287,7 @@ void preorderPrint(NodePtr nodePtr){
 	}
 	return ;
 }
+/****************postorderPrint function***********************/
 void postorderPrint(NodePtr nodePtr){
 	NodePtr currentPtr=nodePtr;
 	if(currentPtr!=NULL){
